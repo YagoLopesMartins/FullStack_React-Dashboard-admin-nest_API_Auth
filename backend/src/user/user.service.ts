@@ -87,4 +87,16 @@ export class UserService {
       data: updateUserDto,
     });
   }
+
+  async delete(id: string): Promise<User> {
+    const user = await this.prisma.user.findUnique({
+      where: { id },
+    });
+    if (!user) {
+      throw new NotFoundException('Usuário não encontrado');
+    }
+    return this.prisma.user.delete({
+      where: { id },
+    });
+  }
 }
