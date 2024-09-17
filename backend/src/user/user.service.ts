@@ -20,46 +20,35 @@ export class UserService {
     });
   }
 
-  async findAll(
-    page: number = 1,
-    limit: number = 10,
-    search?: string,
-  ): Promise<PaginatedResult<User>> {
+  async findAll(query: { page?: number; limit?: number; search?: string }) {
+    const { page = 1, limit = 10, search = '' } = query;
+
+    // Pular e limitar para paginação
     const skip = (page - 1) * limit;
 
-    const where: Prisma.UserWhereInput = search
+    // Filtragem por busca
+    const where = search
       ? {
-          name: {
-            contains: search,
-            mode: 'insensitive',
-          },
+          name: { contains: search, mode: Prisma.QueryMode.insensitive },
         }
       : {};
 
-    try {
-      const [users, totalCount] = await Promise.all([
-        this.prisma.user.findMany({
-          where,
-          skip,
-          take: limit,
-        }),
-        this.prisma.user.count({ where }),
-      ]);
+    // Consultar usuários com paginação e busca
+    const users = await this.prisma.user.findMany({
+      where,
+      skip,
+      take: limit,
+    });
 
-      return {
-        data: users,
-        meta: {
-          totalItems: totalCount,
-          itemCount: users.length,
-          itemsPerPage: limit,
-          totalPages: Math.ceil(totalCount / limit),
-          currentPage: page,
-        },
-      };
-    } catch (error) {
-      console.error('Error fetching users:', error);
-      throw new Error('Error fetching users');
-    }
+    // Contar o número total de registros (para saber o total de páginas)
+    const totalUsers = await this.prisma.user.count({ where });
+
+    return {
+      data: users,
+      total: totalUsers,
+      page,
+      lastPage: Math.ceil(totalUsers / limit),
+    };
   }
 
   async findOne(id: string): Promise<User | null> {

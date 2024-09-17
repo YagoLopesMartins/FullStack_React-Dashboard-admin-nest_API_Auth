@@ -7,6 +7,7 @@ import {
   Param,
   Put,
   Delete,
+  BadRequestException,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -22,18 +23,22 @@ export class UserController {
   @ApiOperation({ summary: 'Criar um novo usuário' })
   @ApiResponse({ status: 201, description: 'Usuário criado com sucesso.' })
   create(@Body() createUserDto: CreateUserDto): Promise<User> {
+    // if (createUserDto.password !== createUserDto.confirmPassword) {
+    //   throw new BadRequestException('As senhas não coincidem');
+    // }
+
     return this.userService.create(createUserDto);
   }
 
   @Get()
   @ApiOperation({ summary: 'Listar todos os usuários' })
   @ApiResponse({ status: 200, description: 'Usuários retornados com sucesso.' })
-  findAll(
-    @Query('page') page: number = 1,
-    @Query('limit') limit: number = 10,
+  async findAll(
+    @Query('page') page?: number,
+    @Query('limit') limit?: number,
     @Query('search') search?: string,
   ) {
-    return this.userService.findAll(page, limit, search);
+    return this.userService.findAll({ page, limit, search });
   }
 
   @Get(':id')
