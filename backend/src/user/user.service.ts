@@ -20,12 +20,15 @@ export class UserService {
     });
   }
 
-  async findAll(query: { page?: number; limit?: number; search?: string }) {
-    const { page = 1, limit = 10, search = '' } = query;
-
-    // Pular e limitar para paginação
-    const skip = (page - 1) * limit;
-
+  async findAll({
+    page,
+    limit,
+    search,
+  }: {
+    page: number;
+    limit: number;
+    search?: string;
+  }) {
     // Filtragem por busca
     const where = search
       ? {
@@ -36,18 +39,20 @@ export class UserService {
     // Consultar usuários com paginação e busca
     const users = await this.prisma.user.findMany({
       where,
-      skip,
+      skip: (page - 1) * limit,
       take: limit,
     });
 
     // Contar o número total de registros (para saber o total de páginas)
-    const totalUsers = await this.prisma.user.count({ where });
+    const totalItems = await this.prisma.user.count({ where });
 
     return {
       data: users,
-      total: totalUsers,
-      page,
-      lastPage: Math.ceil(totalUsers / limit),
+      meta: {
+        totalItems,
+        currentPage: page,
+        totalPages: Math.ceil(totalItems / limit),
+      },
     };
   }
 

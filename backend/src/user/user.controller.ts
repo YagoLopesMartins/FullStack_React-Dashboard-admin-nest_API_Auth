@@ -34,11 +34,19 @@ export class UserController {
   @ApiOperation({ summary: 'Listar todos os usuários' })
   @ApiResponse({ status: 200, description: 'Usuários retornados com sucesso.' })
   async findAll(
-    @Query('page') page?: number,
-    @Query('limit') limit?: number,
+    @Query('page') page: string = '1',
+    @Query('limit') limit: string = '10',
     @Query('search') search?: string,
   ) {
-    return this.userService.findAll({ page, limit, search });
+    // Converte os valores para números inteiros
+    const pageNumber = parseInt(page, 10) || 1;
+    const limitNumber = parseInt(limit, 10) || 10;
+
+    return this.userService.findAll({
+      page: pageNumber,
+      limit: limitNumber,
+      search,
+    });
   }
 
   @Get(':id')
