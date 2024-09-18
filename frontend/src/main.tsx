@@ -9,6 +9,7 @@ import Home from "@/components/Home.tsx";
 
 import UserList from "@/pages/users/UserList.tsx";
 import UserAdd from "@/pages/users/UserAdd.tsx";
+import UserEdit from "@/pages/users/UserEdit.tsx";
 
 const router = createBrowserRouter([
   {
@@ -30,6 +31,10 @@ const router = createBrowserRouter([
   {
     path: "/users/add/",
     element: <UserAdd />,
+  },
+  {
+    path: "/users/edit/:id",
+    element: <UserEdit />,
   },
 ]);
 
