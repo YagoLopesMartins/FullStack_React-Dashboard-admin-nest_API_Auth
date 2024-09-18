@@ -6,6 +6,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 import Dashboard from "./components/Dashboard.tsx";
 import Home from "@/components/Home.tsx";
+import UserList from "@/pages/users/UserList.tsx";
 
 const router = createBrowserRouter([
   {
@@ -19,6 +20,10 @@ const router = createBrowserRouter([
   {
     path: "/dashboard",
     element: <Dashboard />,
+  },
+  {
+    path: "/users/list/",
+    element: <UserList />,
   },
 ]);
 
