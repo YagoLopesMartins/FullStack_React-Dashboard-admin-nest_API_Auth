@@ -11,6 +11,8 @@ import UserList from "@/pages/users/UserList.tsx";
 import UserAdd from "@/pages/users/UserAdd.tsx";
 import UserEdit from "@/pages/users/UserEdit.tsx";
 
+import Login from "@/pages/Login.tsx";
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -35,6 +37,10 @@ const router = createBrowserRouter([
   {
     path: "/users/edit/:id",
     element: <UserEdit />,
+  },
+  {
+    path: "/login",
+    element: <Login />,
   },
 ]);
 
