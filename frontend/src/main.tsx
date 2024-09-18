@@ -6,7 +6,9 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 import Dashboard from "./components/Dashboard.tsx";
 import Home from "@/components/Home.tsx";
+
 import UserList from "@/pages/users/UserList.tsx";
+import UserAdd from "@/pages/users/UserAdd.tsx";
 
 const router = createBrowserRouter([
   {
@@ -24,6 +26,10 @@ const router = createBrowserRouter([
   {
     path: "/users/list/",
     element: <UserList />,
+  },
+  {
+    path: "/users/add/",
+    element: <UserAdd />,
   },
 ]);
 
