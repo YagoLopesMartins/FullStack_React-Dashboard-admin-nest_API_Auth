@@ -21,4 +21,6 @@ model User {
   password String @db.VarChar(80)
   createdAt     DateTime    @default(now()) @map("created_at")
   updatedAt     DateTime    @updatedAt @map("updated_at")
+  resetToken   String?  
+  tokenExpiration DateTime?
 }
