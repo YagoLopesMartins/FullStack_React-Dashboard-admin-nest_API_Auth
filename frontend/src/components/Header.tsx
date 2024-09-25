@@ -1,52 +1,65 @@
-import React, { Fragment } from "react";
-import { Menu, Transition } from "@headlessui/react";
-import classNames from "classnames";
+import React, { useState, useEffect } from 'react'
+import { Avatar, AvatarFallback } from './ui/avatar.tsx'
+import { Button } from './ui/button'
+import { useNavigate } from 'react-router-dom'
+import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger, DropdownMenuItem } from './ui/dropdown-menu.tsx'
+import { ArrowBigLeftDash } from 'lucide-react'
 export default function Header() {
-  return (
-    <div className="bg-white h-16 px-4 flex items-center border-b border-gray-200 justify-between">
-      <div className="relative"></div>
-      <div className="flex items-center gap-2 mr-2">
-        <Menu as="div" className="relative">
-          <div>
-            <Menu.Button className="ml-2 bg-gray-800 flex text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-neutral-400">
-              <span className="sr-only">Open user menu</span>
-              <div
-                className="h-10 w-10 rounded-full bg-sky-500 bg-cover bg-no-repeat bg-center"
-                style={{
-                  backgroundImage:
-                    'url("https://source.unsplash.com/80x80?face")',
-                }}
-              >
-                <span className="sr-only">Marc Backes</span>
-              </div>
-            </Menu.Button>
-          </div>
-          <Transition
-            as={Fragment}
-            enter="transition ease-out duration-100"
-            enterFrom="transform opacity-0 scale-95"
-            enterTo="transform opacity-100 scale-100"
-            leave="transition ease-in duration-75"
-            leaveFrom="transform opacity-100 scale-100"
-            leaveTo="transform opacity-0 scale-95"
-          >
-            <Menu.Items className="origin-top-right z-10 absolute right-0 mt-2 w-48 rounded-sm shadow-md p-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
-              <Menu.Item>
-                {({ active }) => (
-                  <div
-                    className={classNames(
-                      active && "bg-gray-100",
-                      "active:bg-gray-200 rounded-sm px-4 py-2 text-gray-700 cursor-pointer focus:bg-gray-200"
-                    )}
-                  >
-                    Sair
-                  </div>
-                )}
-              </Menu.Item>
-            </Menu.Items>
-          </Transition>
-        </Menu>
-      </div>
-    </div>
-  );
+    const [user, setUser] = useState<{ name: string; email: string } | null>(null)
+
+    useEffect(() => {
+        const storedUser = JSON.parse(localStorage.getItem('user') || '{}')
+        if (storedUser && storedUser.name && storedUser.email) {
+            setUser(storedUser)
+        }
+    }, [])
+    const getUserInitials = (name: string) => {
+        const nameParts = name.split(' ')
+        if (nameParts.length > 1) {
+            return `${nameParts[0][0]}${nameParts[1][0]}`.toUpperCase()
+        }
+        return name[0].toUpperCase()
+    }
+
+    const navigate = useNavigate()
+
+    const handleLogout = () => {
+        localStorage.removeItem('access_token')
+        localStorage.removeItem('user')
+        navigate('/login')
+    }
+
+    return (
+        <div className="bg-white h-16 px-4 flex items-center border-b border-gray-200 justify-between">
+            <div className="relative"></div>
+            <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                    <Button variant="ghost">
+                        <Avatar className="w-10 h-10">
+                            <AvatarFallback className="text-white bg-black">
+                                {user ? getUserInitials(user.name) : 'NA'}
+                            </AvatarFallback>
+                        </Avatar>
+                    </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent>
+                    <div className="px-4 py-2 flex flex-row">
+                        <Avatar className="w-10 h-10">
+                            <AvatarFallback className="border-b-cyan-500 text-white bg-black">
+                                {user ? getUserInitials(user.name) : 'NA'}
+                            </AvatarFallback>
+                        </Avatar>
+                        <div className="ml-2">
+                            <p className="font-semibold">{user?.name}</p>
+                            <p className="text-sm text-gray-600">{user?.email}</p>
+                        </div>
+                    </div>
+                    <div className="flex flex-row items-center">
+                        <ArrowBigLeftDash />
+                        <DropdownMenuItem onClick={handleLogout}>Sair</DropdownMenuItem>
+                    </div>
+                </DropdownMenuContent>
+            </DropdownMenu>
+        </div>
+    )
 }
