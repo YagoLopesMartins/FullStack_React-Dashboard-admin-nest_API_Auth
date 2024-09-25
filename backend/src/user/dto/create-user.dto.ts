@@ -4,7 +4,6 @@ import {
   IsString,
   Matches,
   Length,
-  MinLength,
 } from 'class-validator';
 
 export class CreateUserDto {
@@ -28,7 +27,4 @@ export class CreateUserDto {
   })
   @Matches(/^[A-Za-z0-9]+$/, { message: 'A senha deve ser alfanumérica' })
   password: string;
-
-  @MinLength(6)
-  confirmPassword: string;
 }

@@ -1,10 +1,10 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
-import { Prisma, User } from '@prisma/client';
+import { Prisma } from '@prisma/client';
 import * as bcrypt from 'bcrypt';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { PaginatedResult } from './types';
+import { User } from './entities/user.entity';
 
 @Injectable()
 export class UserService {
@@ -20,6 +20,10 @@ export class UserService {
     });
   }
 
+  findByEmail(email: string) {
+    return this.prisma.user.findUnique({ where: { email } });
+  }
+
   async findAll({
     page,
     limit,
@@ -29,21 +33,18 @@ export class UserService {
     limit: number;
     search?: string;
   }) {
-    // Filtragem por busca
     const where = search
       ? {
           name: { contains: search, mode: Prisma.QueryMode.insensitive },
         }
       : {};
 
-    // Consultar usuários com paginação e busca
     const users = await this.prisma.user.findMany({
       where,
       skip: (page - 1) * limit,
       take: limit,
     });
 
-    // Contar o número total de registros (para saber o total de páginas)
     const totalItems = await this.prisma.user.count({ where });
 
     return {
@@ -53,13 +54,19 @@ export class UserService {
         currentPage: page,
         totalPages: Math.ceil(totalItems / limit),
       },
+      status: 'success',
+      message: 'Users fetched successfully',
     };
   }
 
   async findOne(id: string): Promise<User | null> {
-    return this.prisma.user.findUnique({
+    const user = await this.prisma.user.findUnique({
       where: { id },
     });
+    if (!user) {
+      throw new NotFoundException('Usuário não encontrado');
+    }
+    return user;
   }
 
   async update(id: string, updateUserDto: UpdateUserDto): Promise<User> {
@@ -70,15 +77,14 @@ export class UserService {
       throw new NotFoundException('Usuário não encontrado');
     }
 
-    if (updateUserDto.password) {
-      const salt = await bcrypt.genSalt(10);
-      updateUserDto.password = await bcrypt.hash(updateUserDto.password, salt);
-    }
+    const hashedPassword = await bcrypt.hash(updateUserDto.password, 10);
 
-    // const hashedPassword = await bcrypt.hash(updateUserDto.password, 10);
-    return this.prisma.user.update({
+    return await this.prisma.user.update({
       where: { id },
-      data: updateUserDto,
+      data: {
+        ...updateUserDto,
+        password: hashedPassword,
+      },
     });
   }
 
@@ -89,7 +95,7 @@ export class UserService {
     if (!user) {
       throw new NotFoundException('Usuário não encontrado');
     }
-    return this.prisma.user.delete({
+    return await this.prisma.user.delete({
       where: { id },
     });
   }
