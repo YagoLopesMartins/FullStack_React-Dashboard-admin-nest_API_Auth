@@ -12,8 +12,12 @@ import UserAdd from '@/pages/users/UserAdd.tsx'
 import UserEdit from '@/pages/users/UserEdit.tsx'
 
 import Login from '@/pages/Login.tsx'
-import PasswordReset from '@/pages/PasswordReset.tsx'
 import Loading from './pages/Loading.tsx'
+
+import ForgotPassword from '@/pages/ForgotPassword.tsx'
+import ResetPassword from '@/pages/ResetPassword.tsx'
+
+// import PrivateRoute from '@/PrivateRoute.tsx'
 
 const router = createBrowserRouter([
     {
@@ -45,13 +49,55 @@ const router = createBrowserRouter([
         element: <Login />
     },
     {
-        path: '/reset',
-        element: <PasswordReset />
+        path: '/forgot',
+        element: <ForgotPassword />
+    },
+    {
+        path: '/reset-password/:token',
+        element: <ResetPassword />
     },
     {
         path: '/loading',
         element: <Loading />
     }
+    // TODO: Para garantir segurança nas rotas importante deixar privada e para isso descomentar o código
+    // {
+    //     path: "/",
+    //     element: <PrivateRoute><App /></PrivateRoute>,
+    //     // element: <App />,
+    // },
+    // {
+    //     path: "/home",
+    //     element: <PrivateRoute><Home /></PrivateRoute>,
+    // },
+    // {
+    //     path: "/dashboard",
+    //     element: <PrivateRoute><Dashboard /></PrivateRoute>,
+    // },
+    // {
+    //     path: "/users/list/",
+    //     element: <PrivateRoute><UserList /></PrivateRoute>,
+    // },
+    // {
+    //     path: "/users/add/",
+    //     element: <PrivateRoute><UserAdd /></PrivateRoute>,
+    // },
+    // {
+    //     path: "/users/edit/:id",
+    //     element: <PrivateRoute><UserEdit /></PrivateRoute>,
+    // },
+    // {
+    //     path: "/loading",
+    //     element: <Loading />,
+    // },
+    // {
+    //     path: "/login",
+    //     element: <Login />,
+    // },
+    // {
+    //     path: "/reset",
+    //     element: <PasswordReset />,
+    // }
 ])
 
 createRoot(document.getElementById('root')!).render(
