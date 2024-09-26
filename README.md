@@ -1,130 +1,163 @@
-# API de Users (Desenvolver um sistema CRUD completo para gerenciamento de usuários,
-abrangendo tanto o backend quanto o frontend)
+# API RESTful de Usuários (Backend e Frontend)
 
-Esta é uma API desenvolvida em NestJs para gerenciar usuarios.
+### Overview
+
+- Sistema **CRUD** completo para gerenciamento de usuários
+- Abrange tanto o **Backend** quanto o **Frontend**
+- Desenvolvido em **NestJs (NodeJs)** para o backend e **ReactJs** para o frontend.
+- O sistema deve ser acessado **(Login)** com autenticação por token (**JWT**, Oauth2, etc).
+- O sistema possui sistema de **recuperação de senha** (validação de usuário cadstrado e **envio de e-mail**)
+- **Tecnologias**: Typescript, Vite, React, React-form-hooks, Axios, Zod, Tailwindcss, Shadcn/ui, PrismaORM, PostgreSQL, Nestjs, Passport, NodeMailer, JWT token, Swagger
+
+### Objetivo
+
 - Desenvolver um sistema CRUD completo para gerenciamento de usuários,
-abrangendo tanto o backend quanto o frontend
-- Utilizar um framework de front-end (React, Angular ou Vue.js) para
-construir a aplicação.
-- Desenvolver uma interface de usuário e suas validações.
+  abrangendo tanto o backend quanto o frontend
 
+### Frontend
 
-- O sistema deve ser acessado com autenticação por token (JWT, Oauth2, etc).
-- Deve-se implementar o modelo entidade-relacionamento a seguir: 
-  - Entidade usuario: 
-    - i. Nome - Apenas Letras
-    - ii. Email - Apenas e-mails válidos
-    - iii.  Matrícula - Apenas Números
-    - iv.  Senha - Alfanuméricos de 6 dígitos
-    - v.  Habilitar botão de salvar apenas quando todos os campos forem
-válidos.
-    - vi. Todos os campos são obrigatórios
+- Utilizar um framework de front-end (**React**, Angular ou Vue.js) para
+  construir a aplicação.
+- Link da Spec (AdobeXD): https://xd.adobe.com/view/6c0ff585-36dd-4969-9d1f-b7661d820524-395c/screen/8f855f3a-02f9-4976-8dbe-1c0f054f892a/
+- Desenvolver uma **interface de usuário** e suas **validações**.
+- **Telas:**
 
-- Documentação: 
-   - a. http://localhost:3000/api (Swagger)
-  
-- Diferenciais Adicionais: 
-   - a. Uso de Docker para executar o projeto apenas com o comando “docker-composer up -d”  
+  - Apresentação (**HOME**)
+  - **Lista de usuários**
+
+    - Pesquisa por nome
+    - Paginação
+
+  - **Cadastro de usuários**
+
+    1. **Nome** - _Apenas Letras_
+    2. **Email** - _Apenas e-mails válidos_
+    3. **Matrícula** - _Apenas Números_
+    4. **Senha** - _Alfanuméricos de 6 dígitos_
+    5. _Habilitar botão de salvar apenas quando todos os campos forem válidos._
+    6. _Todos os campos são obrigatórios_
+
+  - **Edição de Usuário**
+  - **Deletar Usuário**
+  - Outras telas: **Login, ForgotPassword e ResetPassword**
+
+### Backend
+
+- Desenvolver endpoints para **CRUD** (Create, Read, Update, Delete) de
+  usuários.
+- Criar uma **API RESTful** utilizando **Nestjs**
+- Documentar com **Swagger UI**
+  - Para acessar a documentação, após a execução do projeto basta acessar: http://localhost:3000/api
+
+### Banco de Dados
+
+- Configurar um banco de dados relacional (MySQL ou **PostgreSQL**).
+- Criar tabelas necessárias para armazenar dados dos usuários.
 
 ## Configuração do Projeto
 
 ### Requisitos
 
-- Docker
-- Node >=20
+- Nodejs >= 20
 - Npm
 - PostgreSQL
 - PrismaORM
-- Postman ou outro API Client for REST (Ex.: insomnia, Thunder etc)
+- Postman ou outro API Client for REST (Ex.: Insomnia, Thunder Client etc)
 
 ### Instalação
 
-1. Clone o repositório:
+1. Clone o repositório ou Download ZIP:
 
-    ```bash
-    $ git clone https://github.com/YagoLopesMartins/desafioBackendlientechirede.git
-    cd desafioBackendlientechirede
-    ```
+   ```bash
+   $ git clone https://github.com/YagoLopesMartins/react-dashboard-admin-nest.git
+   cd react-dashboard-admin-nest
+   ```
 
 2. Instale as dependências:
-   
-   2.1 COM DOCKER
-   ```bash
-   $ docker-compose up -d 
-     ```
-     - Obs: Verificar no docker se o container desafiobackendlientechirede foi iniciado, se não fora, inicialize manualmente
-     - Obs1: Se erro de mysql então procure por painel de controle de Serviços do Windows (pressionando Win + R
-       e digite services.msc e depois ENTER), localize o serviço do MySQL, que esta em Execução e interrompa-o (pare)
-     - Obs2: Entrar na url http://localhost:9001/ para acessar banco de dados do container o qual terá o banco 
-       - Credenciais:
-         - Servidor: mysql_db
-         - Usuario: root
-         - Senha: root
-   - $ docker-compose build
-   - $ docker exec container bash -c "npm install"
-   - Configure .env (Item 2.2.1 Configure o arquivo .env)
-   - Acesse: http://localhost:3000/
-   - Acesse: http://localhost:3000/users
-   - No insomnia importe os arquivos do diretorio insomnia na raiz do projeto e altere a uri para http://localhost:9000/
-   - Primeiro é necessário registrar-se http://localhost:9000/api/register, será gerado um token como o exemplo abaixo
-     ```bash
-     {
-	   "token": "1|rZCc2cpH94fT5mDm1yoG8gcD6cvqqYLpDur5qZhS0995578b"
-     }
+
+   - 2.1 LOCAL
+
+     - 2.2.1 Acesso o diretório backend
+       ```bash
+         $ cd backend
+         $ npm install ou npm i
+         $ npm run build
+         $ npm run start:prod
        ```
-   - Depois Efetuar o login passando o token anterior no Auth da requisição e o usuário de registro (e-mail e senha) vai gerar outro token exemplo abaixo
-     ```bash
-     {
-	   "token": "3|bqQyd54ULpg3eFvH7xAf2jVqdvqT4BgU6ORmHalTcd6ab703"
-     }
+       - 2.2.1.1 Acesse o diretorio postman e import os endpoints de testes
+       - 2.2.1.2 URI: `http://localhost:3000/`
+       - 2.2.1.3 Insira pelo menos um usuário (POST)
+     - 2.2.2 Configure o arquivo `.env`:
+       - Renomeie o arquivo `.env.example` para `.env` e configure as variáveis de ambiente conforme necessário por exemplo: DATABASE_URL, JWT_SECRET, USER_EMAIL, USER_EMAIL_PASS
+     - 2.2.3 Acesso o diretório frontend
+       ```bash
+         $ cd frontend
+         $ npm install ou npm i
+         $ npm run dev
        ```
-   - Pronto, agora pode testar os endpoints principais repassando o token gerado
+       - Acese: http://localhost:5173/login (Entre com E-mail e senha cadastrados item 2.2.1.3)
 
-   2.2 SE LOCAL
-   
-   
-  2.2.1 Configure o arquivo `.env`:
-
-    Copie o arquivo `.env.example` para `.env` e configure as variáveis de ambiente conforme necessário.
-
-
-A API estará disponível em `http://localhost:3000`.
+   - EM BREVE com DOCKER
 
 ## Rotas da API
 
-Aqui estão as principais rotas da API:
+- Aqui estão as principais rotas da API
+- A API estará disponível em: `http://localhost:3000`.
 
-### usuarios
+### Autenticação
+
+- **Login de usuário**
+
+  - `POST /login`
+  - Valida usuário se possui credencial de entrada ao sistema. Requer um JSON com os seguintes campos:
+    - `email`: E-mail deve ser válido
+    - `password`: Senha (Minimo 6 digitos e alfanúmericos)
+
+### Recuperação de E-mail
+
+- `POST /send-reset-email`
+- Requer um JSON com os seguintes campos: (Se usuário existir envia-se e-mail para cadastrar nova senha)
+
+  - `email`: E-mail deve ser válido
+
+- `POST /reset-password/:token_jwt`
+- Requer um JSON com os seguintes campos:
+  - `newPassword`: Senha (Minimo 6 digitos e alfanúmericos)
+
+### Usuários
 
 - **Listar usuarios**
-  - `GET /api/usuarios`
+
+  - `GET /users`
   - Retorna uma lista de usuarios com paginação. Obs: 10 por página
   - Query parameters:
-    - `search` (opcional): filtro por nome ou descrição.
+    - `search` (opcional): filtro por nome.
+    - `page` (opcional): Número da página.
+    - `limit` (opcional): Quantidade de itens por página.
 
-- **Exibir usuario**
-  - `GET /api/usuarios/{id}`
+- **Exibir usuário**
+
+  - `GET /users/{id}`
   - Retorna detalhes de um usuario específico.
 
-- **Criar usuario**
-  - `POST /api/usuarios`
-  - Cria um novo usuario. Requer um JSON com os seguintes campos:
-    - `nome`: Nome do usuario (máx. 50 caracteres)
-    - `descricao`: Descrição do usuario (máx. 200 caracteres)
-    - `preco`: Preço do usuario (valor positivo)
-    - `data_validade`: Data de validade (não anterior à data atual)
-    - `imagem`: Imagem do usuario (opcional)
-    - `categoria_id`: ID da categoria associada
+- **Criar usuário**
 
-- **Atualizar usuario**
-  - `PUT /api/usuarios/{id}`
+  - `POST /users`
+  - Cria um novo usuário. Requer um JSON com os seguintes campos:
+    - `name`: Nome do usuário (Apenas letras)
+    - `email`: E-mail deve ser válido
+    - `registration`: Matricula do usuário (Apenas números)
+    - `password`: Senha (Minimo 6 digitos e alfanúmericos)
+
+- **Atualizar usuário**
+
+  - `PUT /users/{id}`
   - Atualiza um usuario existente. Aceita os mesmos campos que a criação.
 
-- **Deletar usuario**
-  - `DELETE /api/usuarios/{id}`
+- **Deletar usuário**
+  - `DELETE /users/{id}`
   - Remove um usuario.
 
 ## Contribuição
 
-Sinta-se à vontade para contribuir para este projeto enviando pull requests ou relatando problemas.
-
+Sinta-se à vontade para contribuir para este projeto enviando pull requests ou relatando problemas. Para demais pedidos e sugestões enviar e-mail para: ylm@icomp.ufam.edu.br

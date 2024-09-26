@@ -1,11 +1,9 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import Layout from '@/layouts/Layout.tsx'
 import { Input } from '@/components/ui/input.tsx'
 import { Button } from '@/components/ui/button.tsx'
 import BreadcrumbComponent from '@/components/BreadcrumbComponent.tsx'
 import { Card, CardContent } from '@/components/ui/card.tsx'
-import { Separator } from '@/components/ui/separator.tsx'
-import TitleComponent from '@/components/TitleComponent.tsx'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import axios from 'axios'
 import { useToast } from '@/hooks/use-toast.ts'
@@ -156,7 +154,6 @@ const UserEdit = () => {
                                             id="name"
                                             placeholder="Insira o nome completo*"
                                             required
-                                            className="bg-primary-100"
                                             name="name"
                                             {...register('name')}
                                             className="bg-primary-100"
@@ -173,7 +170,6 @@ const UserEdit = () => {
                                             id="registration"
                                             placeholder="Insira o Nº da matrícula"
                                             required
-                                            className="bg-primary-100"
                                             name="registration"
                                             // value={user.registration}
                                             {...register('registration')}
@@ -193,7 +189,6 @@ const UserEdit = () => {
                                         id="email"
                                         placeholder="Inisra o E-mail*"
                                         required
-                                        className="bg-primary-100"
                                         name="email"
                                         // value={user.email}
                                         {...register('email')}
@@ -213,7 +208,6 @@ const UserEdit = () => {
                                             id="password"
                                             placeholder="Senha"
                                             required
-                                            className="bg-primary-100"
                                             name="password"
                                             // value={user.password}
                                             {...register('password')}
@@ -227,7 +221,6 @@ const UserEdit = () => {
                                             id="confirmationPassword"
                                             placeholder="Repitir Senha"
                                             required
-                                            className="bg-primary-100"
                                             name="confirmationPassword"
                                             // value={user.password}
                                             {...register('confirmationPassword')}
