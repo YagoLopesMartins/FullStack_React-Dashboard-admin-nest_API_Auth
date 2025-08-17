@@ -76,19 +76,28 @@
 2. Instale as dependências:
 
    - 2.1 LOCAL
+     - 2.1.1 Crie seu banco de dados postgresql
+        ```bash
+         $  sudo -u postgres psql
+         $ postgres=# CREATE DATABASE nome_do_banco;
+       ```
+     - 2.1.2 Configure o arquivo `.env`:
+       - Renomeie o arquivo `.env.example` para `.env` e configure as variáveis de ambiente conforme necessário por exemplo: DATABASE_URL, JWT_SECRET, USER_EMAIL, USER_EMAIL_PASS
 
      - 2.2.1 Acesso o diretório backend
        ```bash
          $ cd backend
          $ npm install ou npm i
+         $ npx prisma generate
+         $ npx prisma migrate dev --name init
+         $ npx prisma db seed // Ex.: E-mail: teste@teste.com Senha: teste123 (verifique qual o usuário criado em prisma/seed.ts)
          $ npm run build
          $ npm run start:prod
        ```
        - 2.2.1.1 Acesse o diretorio postman e import os endpoints de testes
        - 2.2.1.2 URI: `http://localhost:3000/`
        - 2.2.1.3 Insira pelo menos um usuário (POST)
-     - 2.2.2 Configure o arquivo `.env`:
-       - Renomeie o arquivo `.env.example` para `.env` e configure as variáveis de ambiente conforme necessário por exemplo: DATABASE_URL, JWT_SECRET, USER_EMAIL, USER_EMAIL_PASS
+    
      - 2.2.3 Acesso o diretório frontend
        ```bash
          $ cd frontend
@@ -97,7 +106,12 @@
        ```
        - Acese: http://localhost:5173/login (Entre com E-mail e senha cadastrados item 2.2.1.3)
 
-   - EM BREVE com DOCKER
+   - DOCKER
+     - $ docker compose build
+     - $ docker compose up
+     - Configure a conexão do bando por exemplo no DBeaver
+     - Acesse: http://localhost:3001/users
+     
 
 ## Rotas da API
 
