@@ -32,7 +32,6 @@ const UserEdit = () => {
     const { id } = useParams()
     const [user, setUser] = useState<Partial<userFormInputs>>({})
     const [loading, setLoading] = useState(true)
-    const [error, setError] = useState('')
     const navigate = useNavigate()
     const { toast } = useToast()
     const [isModalOpen, setIsModalOpen] = useState(false)
@@ -43,7 +42,7 @@ const UserEdit = () => {
                 const response = await axios.get(`http://localhost:3000/users/${id}`)
                 setUser(response.data)
             } catch (error) {
-                setError('Erro ao buscar usuário.')
+                console.error('Erro ao buscar usuário.' + error)
             } finally {
                 setLoading(false)
             }
@@ -56,7 +55,7 @@ const UserEdit = () => {
         handleSubmit,
         setValue,
         watch,
-        formState: { errors, isValid, dirtyFields }
+        formState: { errors, isValid }
     } = useForm<userFormInputs>({
         resolver: zodResolver(userSchema),
         mode: 'onChange'
@@ -90,28 +89,26 @@ const UserEdit = () => {
             })
             setTimeout(() => {
                 navigate('/users/list')
-                setError('')
             }, 3000)
-            setError('')
         } catch (error) {
             toast({
                 title: 'Usuário update ERROR',
                 variant: 'destructive'
             })
-            setError('Ocorreu um erro ao tentar cadastrar')
+            console.error('Ocorreu um erro ao tentar cadastrar' + error)
         }
     }
 
-    const handleButtonCancel = () => {
-        toast({
-            title: 'Cadastrado cancelado',
-            variant: 'cancel'
-        })
-        setTimeout(() => {
-            navigate('/users/list')
-            setError('')
-        }, 2000)
-    }
+    // const handleButtonCancel = () => {
+    //     toast({
+    //         title: 'Cadastrado cancelado',
+    //         variant: 'cancel'
+    //     })
+    //     setTimeout(() => {
+    //         navigate('/users/list')
+    //         setError('')
+    //     }, 2000)
+    // }
 
     const breadcrumbItems = [{ label: 'Usuários' }, { label: 'Editar Usuário' }]
 
@@ -154,8 +151,6 @@ const UserEdit = () => {
                                             id="name"
                                             placeholder="Insira o nome completo*"
                                             required
-                                            name="name"
-                                            {...register('name')}
                                             className="bg-primary-100"
                                         />
                                         {errors.name && <p className="text-red-500">{errors.name.message}</p>}
@@ -170,8 +165,6 @@ const UserEdit = () => {
                                             id="registration"
                                             placeholder="Insira o Nº da matrícula"
                                             required
-                                            name="registration"
-                                            // value={user.registration}
                                             {...register('registration')}
                                             className="bg-primary-100"
                                         />
@@ -189,8 +182,6 @@ const UserEdit = () => {
                                         id="email"
                                         placeholder="Inisra o E-mail*"
                                         required
-                                        name="email"
-                                        // value={user.email}
                                         {...register('email')}
                                         className="bg-primary-100"
                                     />
@@ -208,8 +199,6 @@ const UserEdit = () => {
                                             id="password"
                                             placeholder="Senha"
                                             required
-                                            name="password"
-                                            // value={user.password}
                                             {...register('password')}
                                             className="bg-primary-100"
                                         />
@@ -221,8 +210,6 @@ const UserEdit = () => {
                                             id="confirmationPassword"
                                             placeholder="Repitir Senha"
                                             required
-                                            name="confirmationPassword"
-                                            // value={user.password}
                                             {...register('confirmationPassword')}
                                             className="bg-primary-100"
                                         />

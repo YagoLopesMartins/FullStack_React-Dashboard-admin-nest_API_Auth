@@ -7,7 +7,7 @@ import { Card, CardHeader, CardTitle, CardContent, CardFooter } from '@/componen
 import logo1 from './../assets/icons/svg/Group 48699.svg'
 import lockicon from './../assets/icons/svg/Group 47957.svg'
 import backlogin from './../assets/icons/svg/Group 47771.svg'
-import ModalSendEmailComponet from '@/components/ModalSendEmailComponet.tsx'
+import ModalSendEmailComponent from '@/components/ModalSendEmailComponent'
 import axios from 'axios'
 import { Toaster } from '@/components/ui/toaster.tsx'
 import { useToast } from '@/hooks/use-toast.ts'
@@ -21,7 +21,7 @@ const ForgotPassword: React.FC = () => {
 
     const { toast } = useToast()
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = async (e: React.ChangeEvent<HTMLInputElement>) => {
         e.preventDefault()
         try {
             const response = await axios.post('http://localhost:3000/send-reset-email', { email })
@@ -31,7 +31,7 @@ const ForgotPassword: React.FC = () => {
                 title: 'E-mail não cadastrado. Contate o admin',
                 variant: 'destructive'
             })
-            setMessage('Erro ao enviar o e-mail.')
+            setMessage('Erro ao enviar o e-mail.' + error)
         }
     }
 
@@ -114,7 +114,7 @@ const ForgotPassword: React.FC = () => {
                             </div>
                         </CardFooter>
                     </Card>
-                    <ModalSendEmailComponet isOpen={isModalOpen} onClose={closeModal} />
+                    <ModalSendEmailComponent isOpen={isModalOpen} onClose={closeModal} />
                 </div>
             </div>
         </>

@@ -5,10 +5,11 @@
     "type": "commonjs",
     "scripts": {
         "dev": "vite",
-        "build": "tsc -b && vite build",
+        "build": "vite build",
         "lint": "eslint .",
         "preview": "vite preview",
-        "test": "jest"
+        "test": "jest",
+        "typecheck": "tsc --noEmit"
     },
     "dependencies": {
         "@headlessui/react": "^2.1.8",

@@ -19,6 +19,11 @@ const loginSchema = z.object({
 
 type LoginFormInputs = z.infer<typeof loginSchema>
 
+interface LoginForm {
+    email: string
+    password: string
+}
+
 const Login: React.FC = () => {
     const { toast } = useToast()
 
@@ -26,11 +31,11 @@ const Login: React.FC = () => {
         register,
         handleSubmit,
         formState: { errors }
-    } = useForm()
+    } = useForm<LoginForm>()
 
     const navigate = useNavigate()
 
-    const onSubmit = async (data) => {
+    const onSubmit = async (data: LoginForm) => {
         try {
             const response = await axios.post('http://localhost:3000/login', {
                 email: data.email,
@@ -40,7 +45,7 @@ const Login: React.FC = () => {
 
             const { access_token, user } = response.data
 
-            localStorage.setItem('access_token', response.data.access_token)
+            localStorage.setItem('access_token', access_token)
             localStorage.setItem('user', JSON.stringify(user))
             toast({
                 title: 'Usuário logado com sucesso!',
@@ -52,7 +57,7 @@ const Login: React.FC = () => {
                 title: 'Usuário/Senha inválido(a)',
                 variant: 'destructive'
             })
-            console.error('Erro ao autenticar:', error.response?.data || error.message)
+            console.error('Erro ao autenticar: ' + error)
         }
     }
 

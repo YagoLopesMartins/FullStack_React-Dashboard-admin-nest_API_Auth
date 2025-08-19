@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { Avatar, AvatarFallback } from './ui/avatar.tsx'
 import { Button } from './ui/button'
 import { useNavigate } from 'react-router-dom'

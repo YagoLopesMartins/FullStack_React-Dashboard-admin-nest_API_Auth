@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import Layout from '@/layouts/Layout.tsx'
 import { Input } from '@/components/ui/input.tsx'
 import { Button } from '@/components/ui/button.tsx'
@@ -61,7 +61,7 @@ const UserAdd = () => {
         }
 
         try {
-            const response = await axios.post('http://localhost:3000/users', formData)
+            await axios.post('http://localhost:3000/users', formData)
             toast({
                 title: 'Cadastrado Realizado',
                 variant: 'success'
@@ -115,7 +115,6 @@ const UserAdd = () => {
                                         <Input
                                             type="text"
                                             id="name"
-                                            name="name"
                                             placeholder="Insira o nome completo*"
                                             required
                                             {...register('name')}
@@ -128,14 +127,15 @@ const UserAdd = () => {
                                                           'border-b-cyan-400 border-2 placeholder-green-500-500 text-green-600'
                                                 }`}
                                         />
-                                        {errors.name && <p className="text-red-500">{errors.name.message}</p>}
+                                        {errors.name && (
+                                            <p className="text-red-500">{errors.name.message?.toString()}</p>
+                                        )}
                                         <span className="text-xs text-black-500 float-right">• Máx. 30 Caracteres</span>
                                     </div>
                                     <div className="w-1/2">
                                         <Input
                                             type="text"
                                             id="registration"
-                                            name="registration"
                                             placeholder="Insira o Nº da matrícula"
                                             required
                                             {...register('registration')}
@@ -148,7 +148,7 @@ const UserAdd = () => {
                                                 }`}
                                         />
                                         {errors.registration && (
-                                            <p className="text-red-500">{errors.registration.message}</p>
+                                            <p className="text-red-500">{errors.registration.message?.toString()}</p>
                                         )}
                                         <span className="text-xs text-black-500 float-right">
                                             • Mín. 4 Letras | • Máx. 10 Caracteres
@@ -159,7 +159,6 @@ const UserAdd = () => {
                                     <Input
                                         type="email"
                                         id="email"
-                                        name="email"
                                         placeholder="Inisra o E-mail*"
                                         required
                                         {...register('email')}
@@ -171,7 +170,7 @@ const UserAdd = () => {
                                                           'border-b-cyan-400 border-2 placeholder-green-500-500 text-green-600'
                                                 }`}
                                     />
-                                    {errors.email && <p className="text-red-500">{errors.email.message}</p>}
+                                    {errors.email && <p className="text-red-500">{errors.email.message?.toString()}</p>}
                                     <span className="text-xs text-black-500 float-right">• Máx 40 Caracteres</span>
                                 </div>
                                 Dados de acesso
@@ -181,7 +180,6 @@ const UserAdd = () => {
                                         <Input
                                             type="password"
                                             id="password"
-                                            name="password"
                                             placeholder="Senha"
                                             required
                                             {...register('password')}
@@ -193,14 +191,15 @@ const UserAdd = () => {
                                                   'border-b-cyan-400 border-2 placeholder-green-500-500 text-green-600'
                                         }`}
                                         />
-                                        {errors.password && <p className="text-red-500">{errors.password.message}</p>}
+                                        {errors.password && (
+                                            <p className="text-red-500">{errors.password.message?.toString()}</p>
+                                        )}
                                     </div>
 
                                     <div className="w-1/2">
                                         <Input
                                             type="password"
                                             id="confirmationPassword"
-                                            name="confirmationPassword"
                                             placeholder="Repitir Senha"
                                             required
                                             {...register('confirmationPassword')}
@@ -213,7 +212,9 @@ const UserAdd = () => {
                                                 }`}
                                         />
                                         {errors.confirmationPassword && (
-                                            <p className="text-red-500">{errors.confirmationPassword.message}</p>
+                                            <p className="text-red-500">
+                                                {errors.confirmationPassword.message?.toString()}
+                                            </p>
                                         )}
                                     </div>
                                 </div>

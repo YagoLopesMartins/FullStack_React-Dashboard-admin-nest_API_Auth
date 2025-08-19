@@ -1,4 +1,18 @@
-function ModalDeleteComponet({ isOpen, onClose, onDelete, title, description }) {
+interface ModalDeleteComponentProps {
+    isOpen: boolean
+    onClose: () => void
+    onDelete: () => void
+    title: string
+    description: string
+}
+
+const ModalDeleteComponet: React.FC<ModalDeleteComponentProps> = ({
+    isOpen,
+    onClose,
+    onDelete,
+    title,
+    description
+}) => {
     if (!isOpen) return null
 
     return (

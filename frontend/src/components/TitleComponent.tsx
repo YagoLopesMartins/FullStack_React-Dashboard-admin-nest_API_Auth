@@ -1,7 +1,11 @@
-import React from "react";
+import React from 'react'
 
-function TitleComponent({ children }) {
-  return <h1 className="text-black font-bold text-3xl">{children}</h1>;
+interface TitleComponentProps {
+    children?: React.ReactNode
 }
 
-export default TitleComponent;
+const TitleComponent: React.FC<TitleComponentProps> = ({ children }) => {
+    return <h1 className="text-black font-bold text-3xl">{children}</h1>
+}
+
+export default TitleComponent

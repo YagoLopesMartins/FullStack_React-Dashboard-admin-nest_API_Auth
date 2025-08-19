@@ -5,9 +5,16 @@ import logo2 from '@/assets/icons/01_welcome.png'
 import TitleComponent from '@/components/TitleComponent.tsx'
 import { useNavigate } from 'react-router-dom'
 
+interface User {
+    id?: string
+    name: string
+    email?: string
+    registration?: string
+    password?: string
+}
+
 const Home: React.FC = () => {
-    const [currentDate, setCurrentDate] = useState('')
-    const [user, setUser] = useState(null)
+    const [user, setUser] = useState<User | null>(null)
     const navigate = useNavigate()
 
     useEffect(() => {
@@ -39,7 +46,7 @@ const Home: React.FC = () => {
             <div className="p-4">
                 <Card className="card-height">
                     <CardHeader>
-                        <CardTitle className="font-bold text-2xl">Olá {user.name}!</CardTitle>
+                        <CardTitle className="font-bold text-2xl">Olá {user ? user.name : 'usuário'}!</CardTitle>
                         <CardDescription>{formattedDate}</CardDescription>
                     </CardHeader>
                     <CardContent>

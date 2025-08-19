@@ -18,7 +18,7 @@ const ResetPassword: React.FC = () => {
     const { token } = useParams()
     console.log(token)
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = async (e: React.ChangeEvent<HTMLInputElement>) => {
         e.preventDefault()
         try {
             const response = await axios.post(`http://localhost:3000/reset-password/${token}`, { newPassword })
@@ -26,7 +26,7 @@ const ResetPassword: React.FC = () => {
             setMessage(response.data.message)
             navigate('/login')
         } catch (error) {
-            setMessage('Erro ao redefinir senha.')
+            setMessage('Erro ao redefinir senha.' + error)
         }
     }
 

@@ -1,6 +1,17 @@
-import React from 'react'
-
-function ModalEditCancelComponent({ isOpen, onClose, onConfirm, title, description }) {
+interface ModalDeleteComponentProps {
+    isOpen: boolean
+    onClose: () => void
+    onConfirm: () => void
+    title: string
+    description: string
+}
+const ModalEditCancelComponent: React.FC<ModalDeleteComponentProps> = ({
+    isOpen,
+    onClose,
+    onConfirm,
+    title,
+    description
+}) => {
     if (!isOpen) return null
 
     return (
