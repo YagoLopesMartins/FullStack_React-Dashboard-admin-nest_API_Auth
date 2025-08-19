@@ -1,0 +1,26 @@
+# Ignorar node_modules, pois será instalado no contêiner
+node_modules
+
+# Ignorar arquivos de log
+*.log
+
+# Ignorar arquivos de ambientes locais
+.env
+.env.local
+.env.development
+.env.test
+.env.production
+
+# Ignorar diretórios específicos
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Ignorar os arquivos de saída da build (será gerado dentro do contêiner)
+dist
+
+# Ignorar pastas do Prisma que não são necessárias na imagem
+prisma/migrations
+
+# Ignorar arquivos temporários
+.DS_Store
